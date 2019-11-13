@@ -1,0 +1,76 @@
+<%# ejsRootは都度変更する %>
+<% const ejsRoot = ''; %>
+<%
+    const pageTitle = 'demo | slide-navigation  '
+    const pageDescription = 'スクロールの位置に応じ、ナビゲーションが左右にスライドするscript';
+%>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title><%- pageTitle %></title>
+    <meta name="Description" content="<%= pageDescription %>">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="./css/demo.css">
+</head>
+
+<body>
+<h1 class="none"><%= pageDescription %></h1>
+<header class="header" data-nav>
+    <nav class="header-nav" data-nav-scroll>
+        <% const navLists = [
+            {
+                text: 'サービス',
+                href: 'service'
+            },
+            {
+                text: '導入事例',
+                href: 'case'
+            },
+            {
+                text: 'スタッフ紹介',
+                href: 'member'
+            },
+            {
+                text: 'インタビュー',
+                href: 'interview'
+            },
+            {
+                text: 'お客様の声',
+                href: 'voc'
+            },
+            {
+                text: 'お問い合わせ',
+                href: 'contact'
+            }
+        ]; %>
+        <ul class="header-nav__content">
+            <% navLists.forEach((v,i) => { %>
+            <li>
+                <a class="header-nav__link" href="#<%- v.href %>" data-nav-current="<%- v.href %>" data-scroll>
+                    <%- v.text %>
+                </a>
+            </li>
+            <% }) %>
+        </ul>
+    </nav>
+</header>
+<main>
+    <% navLists.forEach((v,i) => { %>
+        <section id="<%- v.href %>" class="section" data-section>
+            <div class="section__content">
+                <h2><%- v.text  %></h2>
+            </div>
+        </section>
+    <% }) %>
+</main>
+<%# JS %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" defer></script>
+<script src="./js/demo.js" defer></script>
+</body>
+</html>

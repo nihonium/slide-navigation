@@ -1,0 +1,139 @@
+@charset "UTF-8";
+@import "_component/destyle";
+@import "_component/view-at";
+
+/*
+* ページ独自スタイル
+* * * * * * ** * * * * * ** * * * * * */
+$linkcolor: #a9a9a9;
+$color-bk: #000;
+$color-gy: #ececec;
+
+@mixin link-color {
+  @content;
+
+  &:active,
+  &:focus,
+  &:visited,
+  &:hover {
+    @content;
+  }
+}
+
+* {
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", Meiryo, メイリオ, sans-serif;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+.none {
+  display: none;
+}
+
+// ヘッダー
+.header {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  width: 100%;
+
+  &-nav {
+    z-index: 10;
+    position: absolute;
+    background-color: $color-gy;
+
+    @include view-at("pc") {
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    @include view-at("sp") {
+      left: 0;
+      width: 100%;
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
+
+    &__content {
+      display: flex;
+      white-space: nowrap;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      padding-left: 20px;
+      margin-left: -12px;
+      margin-right: -12px;
+      background-color: $color-gy;
+      line-height: 1;
+
+      li {
+        &:last-child {
+          @include view-at("sp") {
+            padding-right: calc(100% - 122px - 10px); // お問い合わせの横幅分
+          }
+        }
+      }
+    }
+
+    &__link {
+      transition: color 0.1s linear;
+      padding-left: 12px;
+      padding-right: 12px;
+
+      @include link-color {
+        color: $linkcolor;
+      }
+
+      @include view-at("pc") {
+        font-size: 18px;
+      }
+
+      @include view-at("sp") {
+        font-size: 15px;
+      }
+
+      &.is-current {
+        color: $color-bk;
+        font-weight: 700;
+      }
+
+      &:hover {
+        @include view-at("pc") {
+          color: $color-bk;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+.section {
+  @include view-at("pc") {
+    padding-top: 100px;
+    padding-bottom: 40px;
+    max-width: 800px;
+    margin-top: -60px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include view-at("sp") {
+    padding-top: 80px;
+    padding-bottom: 30px;
+    margin-top: -50px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &__content {
+    height: 1200px;
+    background: $color-gy;
+  }
+}
