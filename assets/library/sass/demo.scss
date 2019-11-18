@@ -68,14 +68,6 @@ html {
       margin-right: -12px;
       background-color: $color-gy;
       line-height: 1;
-
-      li {
-        &:last-child {
-          @include view-at("sp") {
-            padding-right: calc(100% - 122px - 10px); // お問い合わせの横幅分
-          }
-        }
-      }
     }
 
     &__link {

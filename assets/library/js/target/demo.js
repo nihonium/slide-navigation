@@ -1,13 +1,15 @@
 {
+    /*
+    * SP時に横スライドするナビゲーション
+    --- */
     const slideNav = () => {
         let windowWidth = '';
         const documentHeight = $('body').outerHeight(true);
-
         $(window).on('load resize', function () {
             windowWidth = window.innerWidth;
         });
 
-        // スクロールで点灯させる箇所のidを取得する
+        // スクロールで点灯させる箇所のidを設定
         let array = {
             '#service': 0,
             '#case': 0,
@@ -16,23 +18,22 @@
             '#voc': 0,
             '#contact': 0
         };
-        let $globalNavi = new Array();
+        let $globalNavi = [];
         let key = '';
-        // const dataSection = $('[data-section]').length;
 
         // ナビゲーションの横幅を取得
         let item = [];
         let scrollData = '';
         let scrollCurrent = '';
-        $(window).on('load resize', function() {
+        $(window).on('load resize', function () {
+            $('[data-nav-current]').each(function (value) {
+                item.push($(this).outerWidth());
+            });
 
+            // カレント判定位置をPCとSPで分ける
             if (windowWidth < 1024) {
-                $('[data-nav-current]').each(function(value) {
-                    item.push($(this).outerWidth());
-                });
                 scrollData = 10;
                 scrollCurrent = 50;
-            // カレント判定位置をPCとSPで分ける
             } else {
                scrollData = 110;
                scrollCurrent = 150;
@@ -49,7 +50,7 @@
             }
         }
 
-        // ページロード時にカレント判定
+        // カレント判定
         const setKey = () => {
             getKey();
             for (key in array) {
@@ -62,23 +63,13 @@
             }
         }
 
-        $(window).on('load', function () {
+        $(window).on('load, scroll', function () {
             setKey();
-        });
-
-        // スクロールイベントでカレント判定
-        $(window).scroll(function () {
-            setKey();
-
-            if ($(window).scrollTop() === 0) {
-                $('[data-nav-current="service"]').removeClass("is-current");
-            }
         });
 
         // スクロールが停止した際のトリガーを作成
         // https://www.allinthemind.biz/markup/javascript/jquery-custom-event.html
-        let newEvent = new $.Event('scrollstop'), timer;
-
+        let newEvent = new $.Event('scrollStop'), timer;
         function newEventTrigger() {
             if (timer) clearTimeout(timer);
             timer = setTimeout(function () {
@@ -87,8 +78,8 @@
         }
         $(window).on('scroll', newEventTrigger);
 
-
-        $(window).on('scrollstop', function () {
+        // スクロール停止時にcurrent表示のナビまで横スクロール
+        $(window).on('scrollStop', function () {
             if (windowWidth < 1024) {
                 let slide = '';
                 const speed = 300;
@@ -147,8 +138,19 @@
                 }, 400);
             }
         });
+
+        // ナビゲーションが横スクロールするようにpaddingを付与
+        $(window).on('load resize', function () {
+            const lastItem = 'calc(100% - ' + item.slice(-1)[0] + 'px - 10px)';
+            if (windowWidth < 1024) {
+                $('[data-nav-scroll] li:last-child').css({'padding-right': lastItem});
+            }
+        });
     }
 
+    /*
+    * スムーズスクロール
+    --- */
     const smoothScroll = () => {
         $('[data-scroll]').on('click', function () {
             const speed = 500;
