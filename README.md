@@ -12,7 +12,6 @@
 
 ## タスクランナーについて
 下記の環境にて実装を行っております。  
-[https://github.com/nihonium/00__project](https://github.com/nihonium/00__project)
 
 **gulp**  
 CLI version 3.9.1  

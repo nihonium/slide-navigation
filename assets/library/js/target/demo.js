@@ -5,9 +5,6 @@
     const slideNav = () => {
         let windowWidth = '';
         const documentHeight = $('body').outerHeight(true);
-        $(window).on('load resize', function () {
-            windowWidth = window.innerWidth;
-        });
 
         // スクロールで点灯させる箇所のidを設定
         let array = {
@@ -25,7 +22,11 @@
         let item = [];
         let scrollData = '';
         let scrollCurrent = '';
+
         $(window).on('load resize', function () {
+            // 画面幅を取得
+            windowWidth = window.innerWidth;
+
             $('[data-nav-current]').each(function (value) {
                 item.push($(this).outerWidth());
             });
@@ -38,6 +39,12 @@
                scrollData = 110;
                scrollCurrent = 150;
            }
+
+            // ナビゲーションが横スクロールするようにpaddingを付与
+            const lastItem = 'calc(100% - ' + item.slice(-1)[0] + 'px - 10px)';
+            if (windowWidth < 1024) {
+                $('[data-nav-scroll] li:last-child').css({'padding-right': lastItem});
+            }
         });
 
         // 各要素のスクロール値を保存
@@ -138,14 +145,6 @@
                 }, 400);
             }
         });
-
-        // ナビゲーションが横スクロールするようにpaddingを付与
-        $(window).on('load resize', function () {
-            const lastItem = 'calc(100% - ' + item.slice(-1)[0] + 'px - 10px)';
-            if (windowWidth < 1024) {
-                $('[data-nav-scroll] li:last-child').css({'padding-right': lastItem});
-            }
-        });
     }
 
     /*
@@ -168,5 +167,5 @@
     }
 
     slideNav();
-    smoothScroll();
+    window.addEventListener('DOMContentLoaded', smoothScroll);
 }
