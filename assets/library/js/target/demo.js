@@ -2,45 +2,32 @@
     /*
     * SP時に横スライドするナビゲーション
     --- */
-
-    // 設定
-    let windowWidth = '';
-    const documentHeight = $('body').outerHeight(true);
-
-    // スクロールで点灯させる箇所のidを設定
-    let array = {
-        '#service': 0,
-        '#case': 0,
-        '#member': 0,
-        '#interview': 0,
-        '#voc': 0,
-        '#contact': 0
-    };
-    let $globalNavi = [];
-    let key = '';
-
-    // ナビゲーションの横幅を取得
-    let item = [];
-    let scrollData = '';
-    let scrollCurrent = '';
-
-    const navCurrent = '[data-nav-current]';
-    const IS_CURRENT = 'is-current';
-    const $dataScroll = $('[data-nav-scroll]');
-    const breakPoint = 1024;
-
-    // スクロールが停止した際のトリガーを作成
-    // https://www.allinthemind.biz/markup/javascript/jquery-custom-event.html
-    let newEvent = new $.Event('scrollStop'), timer;
-    function newEventTrigger() {
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(function () {
-            $(window).trigger(newEvent)
-        }, 100);
-    }
-    $(window).on('scroll', newEventTrigger);
-
     const slideNav = () => {
+        let windowWidth = '';
+        const documentHeight = $('body').outerHeight(true);
+
+        // スクロールで点灯させる箇所のidを設定
+        let array = {
+            '#service': 0,
+            '#case': 0,
+            '#member': 0,
+            '#interview': 0,
+            '#voc': 0,
+            '#contact': 0
+        };
+        let $globalNavi = [];
+        let key = '';
+
+        // ナビゲーションの横幅を取得
+        let item = [];
+        let scrollData = '';
+        let scrollCurrent = '';
+
+        const navCurrent = '[data-nav-current]';
+        const IS_CURRENT = 'is-current';
+        const $dataScroll = $('[data-nav-scroll]');
+        const breakPoint = 1024;
+
         $(window).on('load resize', function () {
             // 画面幅を取得
             windowWidth = window.innerWidth;
@@ -92,39 +79,45 @@
         $(window).on('load, scroll', function () {
             decisionKey();
         });
-    }
 
-    const slideNavAction = () => {
-        windowWidth = window.innerWidth;
-        let slide = '';
+        // スクロールが停止した際のトリガーを作成
+        // https://www.allinthemind.biz/markup/javascript/jquery-custom-event.html
+        let newEvent = new $.Event('scrollStop'), timer;
+        function newEventTrigger() {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(function () {
+                $(window).trigger(newEvent)
+            }, 100);
+        }
+        $(window).on('scroll', newEventTrigger);
 
         // スクロール停止時にcurrent表示のナビまで横スクロール
         $(window).on('scrollStop', function () {
             if (windowWidth < breakPoint) {
+                let slide = '';
                 const speed = 300;
-                const animateSetting = $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
 
                 if ($('[data-nav-current="service"].' + IS_CURRENT).length) {
                     slide = 0;
-                    animateSetting();
+                    $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 } else if ($('[data-nav-current="case"].' + IS_CURRENT).length) {
                     slide = item[0];
-                    animateSetting();
+                    $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 } else if ($('[data-nav-current="member"].' + IS_CURRENT).length) {
                     slide = item[0] + item[1];
-                    animateSetting();
+                    $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 } else if ($('[data-nav-current="interview"].' + IS_CURRENT).length) {
                     slide = item[0] + item[1] + item[2];
-                    animateSetting();
+                    $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 } else if ($('[data-nav-current="voc"].' + IS_CURRENT).length) {
                     slide = item[0] + item[1] + item[2] + item[3];
-                    animateSetting();
+                    $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 } else if ($('[data-nav-current="contact"].' + IS_CURRENT).length) {
                     slide = item[0] + item[1] + item[2] + item[3] + item[4];
-                    animateSetting();
+                    $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 } else if (documentHeight < 100) {
                     slide = 0;
-                    animateSetting();
+                    $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 }
             }
         });
@@ -133,27 +126,27 @@
         $(navCurrent).on('click', function () {
             if (windowWidth < breakPoint) {
                 setTimeout(function () {
+                    let slide = '';
                     const speed = 100;
-                    const animateSetting = $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
 
                     if ($('[data-nav-current="service"].' + IS_CURRENT).length) {
                         slide = 0;
-                        animateSetting();
+                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                     } else if ($('[data-nav-current="case"].' + IS_CURRENT).length) {
                         slide = item[0];
-                        animateSetting();
+                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                     } else if ($('[data-nav-current="member"].' + IS_CURRENT).length) {
                         slide = item[0] + item[1];
-                        animateSetting();
+                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                     } else if ($('[data-nav-current="interview"].' + IS_CURRENT).length) {
                         slide = item[0] + item[1] + item[2];
-                        animateSetting();
+                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                     } else if ($('[data-nav-current="voc"].' + IS_CURRENT).length) {
                         slide = item[0] + item[1] + item[2] + item[3];
-                        animateSetting();
+                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                     } else if ($('[data-nav-current="contact"].' + IS_CURRENT).length) {
                         slide = item[0] + item[1] + item[2] + item[3] + item[4];
-                        animateSetting();
+                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                     }
                 }, 400);
             }
@@ -179,8 +172,6 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', slideNav);
-    window.addEventListener('load', slideNavAction);
-    window.addEventListener('resize', slideNavAction);
-    smoothScroll();
+    slideNav();
+    window.addEventListener('DOMContentLoaded', smoothScroll);
 }
