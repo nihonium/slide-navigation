@@ -1,15 +1,18 @@
-{
-    /*
-    * SP時に横スライドするナビゲーション
-    --- */
-    // ターゲット・ブレイクポイントの指定
-    const navCurrent = '[data-nav-current]';
-    const IS_CURRENT = 'is-current';
-    const $dataScroll = $('[data-nav-scroll]');
-    const breakPoint = 1024;
+/* ==================================
+ * SP時に横スライドするナビゲーション
+   ================================== */
 
-    const slideNavCurrent = () => {
-        // カレント判定位置をPCとSPで分ける
+{
+    // ターゲット・ブレイクポイントの指定
+    const DATA_CURRENT = '[data-nav-current]';
+    const CLASS_CURRENT = 'is-current';
+    const $dataScroll = $('[data-nav-scroll]');
+    const BREAK_POINT = 1024;
+
+    /*
+     * カレントの設定
+     */
+    const currentSetting = () => {
         let scrollData = '';
         let scrollCurrent = '';
 
@@ -30,7 +33,7 @@
             const windowWidth = window.innerWidth;
 
             // PCとSPでカレント余白を変更
-            if (windowWidth < breakPoint) {
+            if (windowWidth < BREAK_POINT) {
                 scrollData = 10;
                 scrollCurrent = 50;
             } else {
@@ -44,21 +47,21 @@
             for (key in array) {
                 if ($(key).offset()) {
                     array[key] = $(key).offset().top - scrollData;
-                    $globalNavi[key] = $(navCurrent + '[href="' + key + '"]');
+                    $globalNavi[key] = $(DATA_CURRENT + '[href="' + key + '"]');
                 }
             }
         }
 
-        // カレント判定
+        // カレント用Classの付与・削除
         const decisionKey = () => {
             getKey();
 
             for (key in array) {
                 if ($(window).scrollTop() > array[key] - scrollCurrent) {
-                    $(navCurrent).each(function () {
-                        $(this).removeClass(IS_CURRENT);
+                    $(DATA_CURRENT).each(function () {
+                        $(this).removeClass(CLASS_CURRENT);
                     });
-                    $globalNavi[key].addClass(IS_CURRENT);
+                    $globalNavi[key].addClass(CLASS_CURRENT);
                 }
             }
         }
@@ -68,7 +71,10 @@
         });
     }
 
-    const slideNav = () => {
+    /*
+     * ナビゲーションの設定
+     */
+    const slideNavSetting = () => {
         // ナビゲーションの横幅を格納
         let item = [];
 
@@ -88,44 +94,41 @@
             // 画面幅を取得
             const windowWidth = window.innerWidth;
 
-            $(navCurrent).each(function (value) {
+            $(DATA_CURRENT).each(function (value) {
                 item.push($(this).outerWidth());
             });
 
             const lastItem = 'calc(100% - ' + item.slice(-1)[0] + 'px - 10px)';
-            if (windowWidth < breakPoint) {
+            if (windowWidth < BREAK_POINT) {
                 $('[data-nav-scroll] li:last-child').css({'padding-right': lastItem});
             }
         });
 
         // スクロール停止時にcurrent表示のナビまで横スクロール
         $(window).on('scrollStop', function () {
-            // 画面幅を取得
             const windowWidth = window.innerWidth;
 
-            if (windowWidth < breakPoint) {
+            if (windowWidth < BREAK_POINT) {
                 let slide = '';
                 const speed = 300;
-
-                // ページの長さを取得
                 const documentHeight = $('body').outerHeight(true);
 
-                if ($('[data-nav-current="service"].' + IS_CURRENT).length) {
+                if ($('[data-nav-current="service"].' + CLASS_CURRENT).length) {
                     slide = 0;
                     $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                } else if ($('[data-nav-current="case"].' + IS_CURRENT).length) {
+                } else if ($('[data-nav-current="case"].' + CLASS_CURRENT).length) {
                     slide = item[0];
                     $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                } else if ($('[data-nav-current="member"].' + IS_CURRENT).length) {
+                } else if ($('[data-nav-current="member"].' + CLASS_CURRENT).length) {
                     slide = item[0] + item[1];
                     $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                } else if ($('[data-nav-current="interview"].' + IS_CURRENT).length) {
+                } else if ($('[data-nav-current="interview"].' + CLASS_CURRENT).length) {
                     slide = item[0] + item[1] + item[2];
                     $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                } else if ($('[data-nav-current="voc"].' + IS_CURRENT).length) {
+                } else if ($('[data-nav-current="voc"].' + CLASS_CURRENT).length) {
                     slide = item[0] + item[1] + item[2] + item[3];
                     $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                } else if ($('[data-nav-current="contact"].' + IS_CURRENT).length) {
+                } else if ($('[data-nav-current="contact"].' + CLASS_CURRENT).length) {
                     slide = item[0] + item[1] + item[2] + item[3] + item[4];
                     $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
                 } else if (documentHeight < 100) {
@@ -134,44 +137,11 @@
                 }
             }
         });
-
-        // クリック時にcurrent表示のナビまで横スクロール
-        $(navCurrent).on('click', function () {
-            // 画面幅を取得
-            const windowWidth = window.innerWidth;
-
-            if (windowWidth < breakPoint) {
-                setTimeout(function () {
-                    let slide = '';
-                    const speed = 100;
-
-                    if ($('[data-nav-current="service"].' + IS_CURRENT).length) {
-                        slide = 0;
-                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                    } else if ($('[data-nav-current="case"].' + IS_CURRENT).length) {
-                        slide = item[0];
-                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                    } else if ($('[data-nav-current="member"].' + IS_CURRENT).length) {
-                        slide = item[0] + item[1];
-                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                    } else if ($('[data-nav-current="interview"].' + IS_CURRENT).length) {
-                        slide = item[0] + item[1] + item[2];
-                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                    } else if ($('[data-nav-current="voc"].' + IS_CURRENT).length) {
-                        slide = item[0] + item[1] + item[2] + item[3];
-                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                    } else if ($('[data-nav-current="contact"].' + IS_CURRENT).length) {
-                        slide = item[0] + item[1] + item[2] + item[3] + item[4];
-                        $dataScroll.animate({scrollLeft: slide}, speed, 'swing');
-                    }
-                }, 400);
-            }
-        });
     }
 
     /*
-    * スムーズスクロール
-    --- */
+     * スムーズスクロール
+     */
     const smoothScroll = () => {
         $('[data-scroll]').on('click', function () {
             const speed = 500;
@@ -188,7 +158,7 @@
         });
     }
 
-    slideNavCurrent();
-    slideNav();
+    currentSetting();
+    slideNavSetting();
     window.addEventListener('DOMContentLoaded', smoothScroll);
 }
