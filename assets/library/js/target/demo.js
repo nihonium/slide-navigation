@@ -2,9 +2,16 @@
     /*
     * SP時に横スライドするナビゲーション
     --- */
-    const slideNav = () => {
-        let windowWidth = '';
-        const documentHeight = $('body').outerHeight(true);
+    // ターゲット・ブレイクポイントの指定
+    const navCurrent = '[data-nav-current]';
+    const IS_CURRENT = 'is-current';
+    const $dataScroll = $('[data-nav-scroll]');
+    const breakPoint = 1024;
+
+    const slideNavCurrent = () => {
+        // カレント判定位置をPCとSPで分ける
+        let scrollData = '';
+        let scrollCurrent = '';
 
         // スクロールで点灯させる箇所のidを設定
         let array = {
@@ -17,26 +24,12 @@
         };
         let $globalNavi = [];
         let key = '';
-
-        // ナビゲーションの横幅を取得
-        let item = [];
-        let scrollData = '';
-        let scrollCurrent = '';
-
-        const navCurrent = '[data-nav-current]';
-        const IS_CURRENT = 'is-current';
-        const $dataScroll = $('[data-nav-scroll]');
-        const breakPoint = 1024;
-
+        
         $(window).on('load resize', function () {
             // 画面幅を取得
-            windowWidth = window.innerWidth;
+            const windowWidth = window.innerWidth;
 
-            $(navCurrent).each(function (value) {
-                item.push($(this).outerWidth());
-            });
-
-            // カレント判定位置をPCとSPで分ける
+            // PCとSPでカレント余白を変更
             if (windowWidth < breakPoint) {
                 scrollData = 10;
                 scrollCurrent = 50;
@@ -44,12 +37,6 @@
                scrollData = 110;
                scrollCurrent = 150;
            }
-
-            // ナビゲーションが横スクロールするようにpaddingを付与
-            const lastItem = 'calc(100% - ' + item.slice(-1)[0] + 'px - 10px)';
-            if (windowWidth < breakPoint) {
-                $('[data-nav-scroll] li:last-child').css({'padding-right': lastItem});
-            }
         });
 
         // 各要素のスクロール値を保存
@@ -79,6 +66,11 @@
         $(window).on('load, scroll', function () {
             decisionKey();
         });
+    }
+
+    const slideNav = () => {
+        // ナビゲーションの横幅を格納
+        let item = [];
 
         // スクロールが停止した際のトリガーを作成
         // https://www.allinthemind.biz/markup/javascript/jquery-custom-event.html
@@ -91,11 +83,32 @@
         }
         $(window).on('scroll', newEventTrigger);
 
+        // ナビゲーションが横スクロールするようにpaddingを付与
+        $(window).on('load resize', function () {
+            // 画面幅を取得
+            const windowWidth = window.innerWidth;
+
+            $(navCurrent).each(function (value) {
+                item.push($(this).outerWidth());
+            });
+
+            const lastItem = 'calc(100% - ' + item.slice(-1)[0] + 'px - 10px)';
+            if (windowWidth < breakPoint) {
+                $('[data-nav-scroll] li:last-child').css({'padding-right': lastItem});
+            }
+        });
+
         // スクロール停止時にcurrent表示のナビまで横スクロール
         $(window).on('scrollStop', function () {
+            // 画面幅を取得
+            const windowWidth = window.innerWidth;
+
             if (windowWidth < breakPoint) {
                 let slide = '';
                 const speed = 300;
+
+                // ページの長さを取得
+                const documentHeight = $('body').outerHeight(true);
 
                 if ($('[data-nav-current="service"].' + IS_CURRENT).length) {
                     slide = 0;
@@ -124,6 +137,9 @@
 
         // クリック時にcurrent表示のナビまで横スクロール
         $(navCurrent).on('click', function () {
+            // 画面幅を取得
+            const windowWidth = window.innerWidth;
+
             if (windowWidth < breakPoint) {
                 setTimeout(function () {
                     let slide = '';
@@ -172,6 +188,7 @@
         });
     }
 
+    slideNavCurrent();
     slideNav();
     window.addEventListener('DOMContentLoaded', smoothScroll);
 }
