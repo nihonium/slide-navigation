@@ -15,19 +15,16 @@
     const currentSetting = () => {
         let scrollData = '';
         let scrollCurrent = '';
-
-        // スクロールで点灯させる箇所のidを設定
-        let array = {
-            '#service': 0,
-            '#case': 0,
-            '#member': 0,
-            '#interview': 0,
-            '#voc': 0,
-            '#contact': 0
-        };
+        let array = {};
         let $globalNavi = [];
         let key = '';
-        
+
+        // スクロールで点灯させる箇所のidを設定
+        $('[data-section]').each(function (ele) {
+            let idSet = '#' + $(this).attr('id');
+            array[idSet] = 0;
+        });
+
         $(window).on('load resize', function () {
             // 画面幅を取得
             const windowWidth = window.innerWidth;
@@ -85,7 +82,7 @@
             if (timer) clearTimeout(timer);
             timer = setTimeout(function () {
                 $(window).trigger(newEvent)
-            }, 100);
+            }, 50);
         }
         $(window).on('scroll', newEventTrigger);
 
