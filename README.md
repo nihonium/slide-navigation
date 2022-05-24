@@ -2,7 +2,7 @@
 スクロールの位置に応じ、ナビゲーションが左右にスライドするscript
 
 ## demo
-[http://nihowebsite.kuron.jp/00__demo/slide-navigation/demo.html](http://nihowebsite.kuron.jp/00__demo/slide-navigation/demo.html)  
+[https://kuron-nihowebsite.ssl-lolipop.jp/00__demo/slide-navigation/demo.html](https://kuron-nihowebsite.ssl-lolipop.jp/00__demo/slide-navigation/demo.html)  
 ※SP表示または、スマートデバイスで御覧ください。
 
 ## 仕様について
