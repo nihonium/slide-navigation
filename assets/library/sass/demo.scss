@@ -1,10 +1,10 @@
-@charset "UTF-8";
+/*
+ * 共通スタイル
+ * * * * * * * * * * * * * * * * * * * * */
+
 @import "_component/destyle";
 @import "_component/view-at";
 
-/*
-* ページ独自スタイル
-* * * * * * ** * * * * * ** * * * * * */
 $linkcolor: #a9a9a9;
 $color-bk: #000;
 $color-gy: #ececec;

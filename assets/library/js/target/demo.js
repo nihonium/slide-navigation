@@ -16,7 +16,7 @@
         let scrollData = '';
         let scrollCurrent = '';
         let array = {};
-        let $globalNavi = [];
+        let globalNav = [];
         let key = '';
 
         // スクロールで点灯させる箇所のidを設定
@@ -44,7 +44,7 @@
             for (key in array) {
                 if ($(key).offset()) {
                     array[key] = $(key).offset().top - scrollData;
-                    $globalNavi[key] = $(DATA_CURRENT + '[href="' + key + '"]');
+                    globalNav[key] = $(DATA_CURRENT + '[href="' + key + '"]');
                 }
             }
         }
@@ -58,7 +58,7 @@
                     $(DATA_CURRENT).each(function () {
                         $(this).removeClass(CLASS_CURRENT);
                     });
-                    $globalNavi[key].addClass(CLASS_CURRENT);
+                    globalNav[key].addClass(CLASS_CURRENT);
                 }
             }
         }
